@@ -1,0 +1,531 @@
+Q1. What is Hadoop? Describe the role of Distributed Computing Environment and list two components of the Hadoop ecosystem.
+(5 marks – detailed answer)
+Hadoop is an open-source framework designed to store and process large-scale datasets across clusters of commodity machines. It follows a distributed architecture so that big data can be split into smaller chunks and processed in parallel. Hadoop provides high fault tolerance, scalability, and low-cost storage, making it suitable for modern big-data workloads.
+A Distributed Computing Environment (DCE) in Hadoop refers to using multiple interconnected nodes to divide work and execute tasks simultaneously. Instead of relying on a single powerful machine, Hadoop distributes the computation across many machines, improving speed and reducing failure impact.
+If one machine fails, Hadoop automatically recovers using replicated data.
+Two important components of the Hadoop ecosystem are:
+1.	HDFS (Hadoop Distributed File System): Used for storing huge datasets in distributed form.
+2.	MapReduce: A distributed processing engine that processes data in parallel using Map and Reduce tasks.
+Together, they form the foundation of Hadoop’s ability to handle massive data workloads efficiently.
+Q2. Describe the architecture of Hive and explain the role of Metastore, Driver, Compiler, and Execution Engine.
+(5 marks – detailed answer)
+Hive is a data warehousing and SQL-like query system built on top of Hadoop. It allows users to write queries in HiveQL, which are internally converted into MapReduce, Tez, or Spark jobs. The architecture consists of several key components.
+The Metastore stores metadata such as table names, schema, column types, partition details, and data locations. It acts as the “catalog” for Hive.
+The Driver receives a HiveQL query, manages the lifecycle of the query, and coordinates its execution. It communicates with the compiler and maintains session handles.
+The Compiler parses, validates, and converts HiveQL queries into an execution plan. It checks metadata from the Metastore and generates a DAG (Directed Acyclic Graph) of tasks.
+The Execution Engine takes the plan from the compiler and submits the jobs to Hadoop (or Spark/Tez). It monitors execution, handles failures, and returns results to the Driver.
+Together, these components allow Hive to provide SQL-like analytics seamlessly on top of Hadoop.
+
+Q3. What is CAP Theorem? How does it relate to NoSQL database types?
+(5 marks – detailed answer)
+CAP Theorem states that in a distributed database, it is impossible to guarantee all three properties at the same time: Consistency (C), Availability (A), and Partition Tolerance (P).
+•	Consistency means every node returns the most recent data.
+•	Availability means every request gets a response, even if it is not the latest.
+•	Partition Tolerance means the system continues to work even if network partitions occur.
+A NoSQL database must choose any two of these three.
+For example:
+•	MongoDB chooses AP (high availability + partition tolerance) but may sacrifice strong consistency.
+•	HBase chooses CP (consistency + partition tolerance) but may reduce availability under partition failures.
+•	Cassandra focuses on AP with tunable consistency.
+Thus, CAP Theorem helps classify NoSQL systems depending on the trade-offs they make to achieve scalability and performance in distributed environments.
+Q4. Spark is described as a Unified Analytics Engine. Explain this and contrast Spark’s in-memory model with MapReduce’s disk-based model.
+(5 marks – detailed answer)
+Apache Spark is called a Unified Analytics Engine because it supports multiple workloads within one framework—batch processing, streaming, SQL queries, machine learning (MLlib), and graph processing (GraphX). Instead of using separate tools for each task, Spark handles all of them using a single execution engine. This reduces complexity and improves developer productivity.
+Spark’s biggest advantage is its in-memory computation. Data is stored in RAM using RDDs or DataFrames, allowing iterative algorithms and repeated operations to run extremely fast.
+In contrast, Hadoop MapReduce writes intermediate results to disk after every map and reduce stage, causing high disk I/O and making it slower for iterative workloads.
+Spark also offers lazy evaluation, DAG optimization, caching, and a highly optimized scheduler. These features make it much faster than MapReduce, especially for ML, graph analytics, and interactive data analysis.
+Thus, Spark delivers unified, high-performance analytics by minimizing disk usage and maximizing memory usage.
+
+Q1. Provide a diagram of Hive architecture and explain its elements.
+(5 marks – detailed 12–15 line answer)
+Hive is a data warehousing and SQL-on-Hadoop system that allows users to execute HiveQL queries on large datasets stored in HDFS. The architecture consists of the User Interface, Driver, Compiler, Optimizer, Execution Engine, and Metastore.
+The User Interface can be CLI, JDBC/ODBC, or Hue, which sends HiveQL queries to the system.
+The Driver acts like the controller; it receives the query, creates a session, and manages the lifecycle of that query. It sends the query to the compiler and later receives results from the execution engine.
+The Compiler parses, validates, and generates an execution plan. It consults the Metastore to fetch metadata about tables, schemas, partition details, and file locations.
+The Optimizer applies rule-based and cost-based optimizations to improve query performance.
+The Execution Engine executes the optimized plan using Hadoop MapReduce, Tez, or Spark.
+Finally, the Metastore stores all metadata information needed for query compilation. Together, these components allow Hive to run SQL-like queries efficiently on top of large Hadoop datasets.
+
+Q2. What is Big Data? Explain the three fundamental aspects of Big Data.
+(5 marks – detailed 12–15 line answer)
+Big Data refers to datasets that are too large, too fast, or too complex for traditional data-processing systems to handle. These datasets require distributed processing, large storage systems, and advanced analytics tools such as Hadoop and Spark.
+The three core characteristics of Big Data are known as the 3Vs: Volume, Velocity, and Variety.
+Volume represents the huge amount of data generated from sensors, social media, enterprise systems, logs, and IoT devices. Since data sizes range from terabytes to petabytes, distributed storage like HDFS is needed.
+Velocity refers to the speed at which data is generated and processed. Modern applications such as financial systems or social networks require real-time or near-real-time data ingestion, making stream-processing engines essential.
+Variety describes the different formats of data — structured (tables), semi-structured (JSON, XML), and unstructured (videos, images, emails).
+Traditional systems struggle with such diverse formats.
+Thus, Big Data demands scalable storage, distributed computing models, and intelligent analytics systems.
+
+Q3. List differences between Data Lake and Data Warehouse.
+(5 marks – detailed 12–15 line answer)
+A Data Lake is a centralized repository that stores raw, unprocessed data in its native format, whereas a Data Warehouse stores cleaned, transformed, and structured data designed for reporting and analytics.
+Data Lakes follow a schema-on-read approach, meaning schema is applied only when the data is read or analyzed; this makes them highly flexible.
+Data Warehouses follow a schema-on-write approach, requiring data cleansing and structuring before storage.
+Data Lakes store all forms of data (structured, semi-structured, unstructured), whereas Data Warehouses mainly store structured data.
+A Data Lake is typically used for machine learning, discovery analytics, and large-scale storage, while Data Warehouses are used for BI dashboards and business reporting.
+Data Lakes are more cost-efficient since they use low-cost storage like HDFS or cloud object storage, while Data Warehouses require expensive high-performance storage.
+Thus, both serve different purposes in modern analytics ecosystems.
+Q4. What are the different types of NoSQL databases? Write a short note.
+(5 marks – detailed 12–15 line answer)
+NoSQL databases are designed to handle large volumes of unstructured or semi-structured data with high scalability and availability. They relax the rigid schema and ACID constraints of relational databases. There are four major types of NoSQL databases.
+1. Key-Value Stores: These store data as key–value pairs. They are extremely fast and ideal for caching, session management, and real-time applications. Examples include Redis and DynamoDB.
+2. Document Stores: These store data in JSON, BSON, or XML documents. They allow flexible schema, making them suitable for content management systems and catalogs. Example: MongoDB.
+3. Column-Family Stores: These store data in column-oriented format and are designed for analytical workloads, log storage, and time-series data. Example: Apache Cassandra and HBase.
+4. Graph Databases: These represent data as nodes and relationships, suitable for social networks, fraud detection, and recommendation systems. Example: Neo4j.
+Each NoSQL type optimizes for scalability, horizontal distribution, and high availability in big data environments.
+Q1. Draw Spark architecture and explain its various components.
+(5 marks – detailed 12–15 line answer)
+Apache Spark follows a master–worker distributed architecture designed for fast in-memory computation. The central component is the Driver Program, which contains the main application code. The driver is responsible for converting user code into a DAG (Directed Acyclic Graph), scheduling tasks, managing metadata, and coordinating cluster execution.
+The Cluster Manager allocates resources to the Spark application. Spark supports several cluster managers — Standalone, YARN, Mesos, and Kubernetes.
+Worker Nodes are the machines in the cluster where actual execution happens. Each worker hosts one or more Executors. Executors run the tasks assigned by the driver and store data in memory for caching.
+Each executor contains task slots, and tasks are the smallest units of execution.
+Spark’s architecture enables parallel processing, fault tolerance, in-memory caching, and optimized DAG execution, allowing applications to run faster than MapReduce.
+The coordination between driver, cluster manager, and executors ensures high performance and scalability.
+
+
+Q3. Explain partitioning in Hive with an example.
+(5 marks – detailed 12–15 line answer)
+Partitioning in Hive is a technique used to divide a large table into smaller, more manageable sub-directories based on the values of a partition column. It improves performance by reducing the amount of data scanned during queries.
+For example, if sales data is partitioned by year and month, a query filtering for a particular month will scan only the relevant directory, not the whole table.
+Partitioning enables pruning, where Hive automatically selects only the required folders.
+Example:
+CREATE TABLE sales(
+    item STRING,
+    amount INT
+)
+PARTITIONED BY (year INT, month INT);
+When inserting data:
+INSERT INTO TABLE sales PARTITION(year=2024, month=7)
+VALUES ('Pen', 100);
+This stores data under: /warehouse/sales/year=2024/month=7/.
+Partitioning greatly improves query performance for large datasets.
+Q4. List any 2 differences between Coalesce and Repartition in Spark.
+(5 marks – detailed 12–15 line answer)
+Coalesce is used to reduce the number of partitions without causing a shuffle. It simply merges existing partitions and is efficient for optimization at the end of a job. Since no data is redistributed across the cluster, it is a narrow transformation.
+Repartition, on the other hand, can either increase or decrease partitions, but it always triggers a full shuffle of data across the executors. Because it redistributes data evenly, it is a wide transformation.
+Coalesce is best suited for reducing partitions when writing output files or reducing overhead, whereas Repartition is used when you need more parallelism or want evenly balanced partition sizes.
+For example:
+df.coalesce(1) → reduce to 1 partition without shuffle.
+df.repartition(10) → create 10 evenly sized partitions with shuffle.
+Thus, the key differences are shuffle usage, performance overhead, and use cases.
+Q1(a). List two primary differences between Hadoop version-2 and Hadoop version-3.
+(5 marks – detailed answer)
+Hadoop 2 and Hadoop 3 differ primarily in scalability, efficiency, and storage capabilities. Hadoop v2 introduced YARN, enabling resource management and distributed processing beyond MapReduce, but it still used traditional HDFS replication (3 copies). Hadoop v3 introduced erasure coding, reducing storage overhead significantly (up to 50% savings) by replacing 3x replication with a more compact parity-based method.
+Another difference is that Hadoop 3 supports multiple namenodes (federation and fault-tolerance), improving high availability and metadata scalability, whereas Hadoop 2 only allowed a single active namenode with one standby.
+Hadoop 3 also supports intra-node scaling, allowing multiple datanode instances on the same physical machine for better hardware utilization.
+In summary, Hadoop 3 improves storage efficiency, fault tolerance, scalability, and performance over Hadoop 2.
+________________________________________
+Q1(b). What is Hive Metastore? Can NoSQL database HBase be configured as Hive Metastore?
+(3 + 1 marks – detailed answer)
+The Hive Metastore is a central repository that stores metadata for Hive tables, such as table names, column types, partition information, storage formats, locations of data in HDFS, and statistics for query optimization. It acts as the “catalog” for Hive, allowing the compiler and driver to validate queries and generate execution plans efficiently.
+The Metastore is crucial for query performance because it provides schema information upfront, enabling Hive to translate SQL queries into optimized execution plans.
+Regarding the second part: Yes, HBase can technically be configured as a Hive Metastore, but it is not recommended.
+By default, Hive uses a relational database like MySQL or PostgreSQL as the Metastore backend because Hive requires transactional consistency and structured metadata access. HBase is a NoSQL store and is not ideal for storing structured metadata tables.
+Thus, while possible, HBase is rarely used as Hive Metastore.
+Q1(c). Using an example, depict how MapReduce computes Word Count.
+(5 marks – detailed answer)
+MapReduce processes Word Count in two stages: Map and Reduce.
+In the Map phase, each input file is split into lines, and the mapper reads each line, tokenizes it into words, and emits key-value pairs in the form (word, 1). For example, given the text:
+“Spark is fast. Spark is powerful.”
+The mapper outputs:
+(Spark,1), (is,1), (fast,1), (Spark,1), (is,1), (powerful,1).
+Next, the Shuffle & Sort phase groups values by key across the cluster, resulting in:
+(Spark → [1,1]), (is → [1,1]), (fast → [1]), (powerful → [1]).
+In the Reduce phase, reducers add all values for each key.
+Final output:
+Spark → 2
+is → 2
+fast → 1
+powerful → 1
+This demonstrates parallel tokenization, grouping, and aggregation.
+Q1(a). Draw Hadoop-2 (YARN) architecture and explain its various components.
+(5 marks – detailed answer)
+Hadoop-2 introduced YARN (Yet Another Resource Negotiator) which separates resource management from application execution. The architecture consists of a ResourceManager, NodeManagers, and ApplicationMaster.
+The ResourceManager is the master daemon responsible for cluster-wide resource allocation. It consists of two sub-components: the Scheduler, which allocates resources based on capacity or fairness, and the ApplicationManager, which manages the lifecycle of applications.
+Each machine in the cluster runs a NodeManager, responsible for monitoring resource usage, launching containers, and reporting health to the ResourceManager.
+For each submitted job, YARN launches an ApplicationMaster, which negotiates resources from the ResourceManager and coordinates task execution within containers on NodeManagers.
+The execution happens inside Containers, which are isolated units of CPU + memory allocated to tasks.
+This architecture improves scalability, allows multiple processing models (MapReduce, Spark, Tez), and enhances resource utilization.
+
+Q1(b). What is bucketing in Hive? List any two benefits of bucketing. Write an example to create a bucketed table.
+(5 marks – detailed answer)
+Bucketing in Hive is a technique that divides table data into fixed number of files (buckets) based on the hash value of a column. While partitioning organizes data at a directory level, bucketing organizes it at the file level inside each partition or table.
+Benefits of bucketing include:
+1.	Improved performance during joins — since rows with the same bucket key fall into the same file, Hive can use “bucket map join.”
+2.	More efficient sampling — because data is evenly distributed across buckets.
+Example:
+CREATE TABLE students (
+  id INT,
+  name STRING
+)
+CLUSTERED BY (id) INTO 4 BUCKETS
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',';
+Here, Hive creates 4 bucket files, each containing rows whose id hashes into that bucket.
+Bucketing enhances performance, especially for large fact tables.
+
+Q1(c). List any 5 differences between batch and stream processing.
+(5 marks – detailed answer)
+Batch processing handles large volumes of stored data and processes it at scheduled intervals, while stream processing handles data continuously as it arrives.
+1.	Latency: Batch processing has high latency (minutes to hours), while streaming has very low latency (milliseconds/seconds).
+2.	Data Source: Batch works on finite historical datasets; streaming works on infinite real-time data flows.
+3.	Use Cases: Batch is used for ETL, reporting, and analytics; streaming is used for fraud detection, IoT monitoring, and real-time dashboards.
+4.	System Complexity: Batch systems (Hadoop, Spark Batch) are simpler; streaming systems (Kafka, Spark Streaming, Flink) need always-running pipelines.
+5.	Fault Tolerance: Streaming must maintain state and handle continuous failures, whereas batch simply retries the whole job.
+Batch is good for deep analysis; streaming is vital for event-driven, time-sensitive applications.
+
+Q1(d). What is Kafka? Briefly explain Kafka Broker, Kafka Topic, Partitions, and Replication.
+(5 marks – detailed answer)
+Kafka is a distributed messaging and streaming platform used for real-time data pipelines and event-driven applications. It acts as a high-throughput, fault-tolerant system where producers publish messages and consumers read them.
+A Kafka Broker is a server that stores messages and serves read/write requests. A Kafka cluster may contain 3–10+ brokers for scalability.
+A Kafka Topic is a logical category or feed name to which messages are written. All messages are stored inside topics.
+A Partition is a split of a topic, allowing Kafka to scale horizontally. Each partition stores messages in append-only logs, enabling parallelism.
+Replication provides fault tolerance — each partition is copied to one or more brokers. If the leader broker fails, a follower takes over, ensuring high availability.
+Kafka’s architecture enables real-time streaming with strong durability and horizontal scaling.
+
+
+Q2(a). Write HDFS shell commands for the following:
+1.	Print Version of installed Hadoop
+hadoop version
+2.	Copy file1.txt to OutputDir as file2.txt
+hdfs dfs -cp InputDir/file1.txt OutputDir/file2.txt
+3.	Delete empty directory XYZ
+hdfs dfs -rmdir XYZ
+4.	List contents of SampleDir
+hdfs dfs -ls SampleDir
+5.	Get usage/help for mkdir command
+hdfs dfs -help mkdir
+________________________________________
+Q2(b). Spark RDD commands
+1.	Create an RDD from List(1,2,3,4,5,6)
+val rdd = sc.parallelize(List(1,2,3,4,5,6))
+2.	Load text file into an RDD
+val data = sc.textFile("/path/to/file.txt")
+3.	Filter out even numbers
+val evens = rdd.filter(x => x % 2 == 0)
+4.	Square each element
+val squared = rdd.map(x => x * x)
+5.	Count the elements
+rdd.count()
+________________________________________
+Q2(c). Hive Queries
+1.	Create database anotherDB
+CREATE DATABASE anotherDB;
+2.	Create external table orders1
+CREATE EXTERNAL TABLE anotherDB.orders1 (
+    order_id INT,
+    order_date STRING,
+    order_customer_id INT,
+    order_status STRING
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LOCATION '/path/to/orders1/';
+3.	Load local file into table
+LOAD DATA LOCAL INPATH '/path/to/localfile.csv'
+INTO TABLE anotherDB.orders1;
+________________________________________
+Q2(d). MongoDB Commands
+1.	Create collection orders
+db.createCollection("orders")
+2.	Insert two records
+db.orders.insertMany([
+    { order_id: 1, order_customer_id: 11599, order_status: "CLOSED" },
+    { order_id: 2, order_customer_id: 11698, order_status: "OPEN" }
+])
+3.	Fetch orders where status = COMPLETE
+db.orders.find({ order_status: "COMPLETE" })
+Q2(a). Write Linux commands for the following:
+(10 marks – copy-friendly answers)
+1.	Display the current working directory
+pwd
+2.	Create directory named DIR1
+mkdir DIR1
+3.	Copy file1.txt to DIR1
+cp file1.txt DIR1/
+4.	Delete file file2.txt
+rm file2.txt
+5.	List all files including hidden files
+ls -a
+________________________________________
+Q2(b). Spark commands:
+(10 marks – clean commands)
+1.	Create RDD rdd1 from List(10,20,30,40,50)
+val rdd1 = sc.parallelize(List(10,20,30,40,50))
+2.	Filter values greater than 30
+val filtered = rdd1.filter(x => x > 30)
+3.	Square each element in rdd1
+val squared = rdd1.map(x => x * x)
+4.	Count elements in rdd1
+rdd1.count()
+5.	Find sum of values in rdd1
+rdd1.reduce(_ + _)
+________________________________________
+Q2(c). Hive Queries:
+(10 marks — perfect scoring set)
+1.	Create database studentDB
+CREATE DATABASE studentDB;
+2.	Create table students (id INT, name STRING, age INT)
+CREATE TABLE studentDB.students (
+    id INT,
+    name STRING,
+    age INT
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',';
+3.	Load local file into students table
+LOAD DATA LOCAL INPATH '/path/to/students.csv'
+INTO TABLE studentDB.students;
+4.	Select students whose age > 20
+SELECT * FROM studentDB.students
+WHERE age > 20;
+5.	Count number of students
+SELECT COUNT(*) FROM studentDB.students;
+
+Q2(d). MongoDB Commands:
+(10 marks — clean and correct)
+1.	Create collection employees
+db.createCollection("employees")
+2.	Insert two records
+db.employees.insertMany([
+  { emp_id: 1, name: "John", salary: 50000 },
+  { emp_id: 2, name: "Asha", salary: 60000 }
+])
+3.	Find employee whose salary > 55000
+db.employees.find({ salary: { $gt: 55000 } })
+4.	Update salary of emp_id = 1 to 70000
+db.employees.updateOne(
+  { emp_id: 1 },
+  { $set: { salary: 70000 } }
+)
+5.	Delete employee with emp_id = 2
+db.employees.deleteOne({ emp_id: 2 })
+Q2(a). HDFS Commands (10 marks)
+1.	Create directory Assignment1
+hdfs dfs -mkdir Assignment1
+2.	Copy input.csv into Assignment1
+hdfs dfs -cp input.csv Assignment1/
+3.	Display contents of Assignment1
+hdfs dfs -ls Assignment1
+4.	View contents of input.csv
+hdfs dfs -cat input.csv
+5.	Remove file sample.txt
+hdfs dfs -rm sample.txt
+________________________________________
+Q2(b). Spark RDD Commands (10 marks)
+1.	Create RDD rdd1 from List(3,6,9,12,15)
+val rdd1 = sc.parallelize(List(3,6,9,12,15))
+2.	Filter values divisible by 3
+val div3 = rdd1.filter(x => x % 3 == 0)
+3.	Multiply each value by 10
+val mult = rdd1.map(x => x * 10)
+4.	Find maximum value in rdd1
+rdd1.max()
+5.	Count values in rdd1
+rdd1.count()
+________________________________________
+Q2(c). Hive Queries (10 marks)
+Use this schema from the question:
+Employee (id INT, name STRING, dept STRING, salary INT)
+1.	Create database empDB
+CREATE DATABASE empDB;
+2.	Create table Employee
+CREATE TABLE empDB.Employee (
+    id INT,
+    name STRING,
+    dept STRING,
+    salary INT
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',';
+3.	Load local file empdata.csv
+LOAD DATA LOCAL INPATH '/path/to/empdata.csv'
+INTO TABLE empDB.Employee;
+4.	Select employees with salary > 50000
+SELECT * FROM empDB.Employee
+WHERE salary > 50000;
+5.	Find count of employees in 'IT' dept
+SELECT COUNT(*) FROM empDB.Employee
+WHERE dept = 'IT';
+________________________________________
+Q2(d). MongoDB Commands (10 marks)
+1.	Create collection products
+db.createCollection("products")
+2.	Insert three products
+db.products.insertMany([
+  { pid: 1, pname: "Laptop", price: 60000 },
+  { pid: 2, pname: "Mouse", price: 500 },
+  { pid: 3, pname: "Keyboard", price: 1500 }
+])
+3.	Find product with price > 1000
+db.products.find({ price: { $gt: 1000 } })
+4.	Update price of pid = 2 to 750
+db.products.updateOne(
+  { pid: 2 },
+  { $set: { price: 750 } }
+)
+5.	Delete product with pid = 3
+db.products.deleteOne({ pid: 3 })
+
+________________________________________
+Q2(a). Write HDFS shell commands for the following:
+1.	Print working directory
+hdfs dfs -pwd
+2.	Make directory TestDir
+hdfs dfs -mkdir TestDir
+3.	Copy input.txt from local into TestDir
+hdfs dfs -put input.txt TestDir/
+4.	Remove file data1.csv
+hdfs dfs -rm data1.csv
+5.	List contents of /user/hadoop
+hdfs dfs -ls /user/hadoop
+________________________________________
+Q2(b). Write Spark commands for the following:
+Assume rdd1 contains:
+(101, "Harry", 45000)
+(102, "James", 38000)
+(103, "Jenny", 52000)
+1.	Create RDD with the above values
+val rdd1 = sc.parallelize(Seq(
+    (101, "Harry", 45000),
+    (102, "James", 38000),
+    (103, "Jenny", 52000)
+))
+2.	Print first two records
+rdd1.take(2)
+3.	Print count of RDD
+rdd1.count()
+4.	Print maximum salary
+rdd1.map(_._3).max()
+5.	Print minimum salary
+rdd1.map(_._3).min()
+________________________________________
+Q2(c). Write Hive queries for the following:
+1.	Create database anotherDB
+CREATE DATABASE anotherDB;
+2.	Create external table orders1
+CREATE EXTERNAL TABLE anotherDB.orders1 (
+    order_id INT,
+    order_date STRING,
+    order_customer_id INT,
+    order_status STRING
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LOCATION '/input/orders1/';
+3.	Display first 10 records from orders1
+SELECT * FROM anotherDB.orders1
+LIMIT 10;
+4.	Select only orders with CLOSED status
+SELECT * FROM anotherDB.orders1
+WHERE order_status = 'CLOSED';
+5.	Find count of orders with OPEN status
+SELECT COUNT(*) FROM anotherDB.orders1
+WHERE order_status = 'OPEN';
+________________________________________
+Q2(d). Write MongoDB commands for the following:
+1.	Create collection users
+db.createCollection("users")
+2.	Insert user record
+db.users.insertOne({
+    user_id: 1,
+    user_name: "Alex",
+    user_email: "alex@test.com"
+})
+3.	Insert another user
+db.users.insertOne({
+    user_id: 2,
+    user_name: "Mary",
+    user_email: "mary@test.com"
+})
+4.	Find user with user_id = 1
+db.users.find({ user_id: 1 })
+5.	Delete user with user_id = 2
+db.users.deleteOne({ user_id: 2 })
+Q2(a). Write HDFS shell commands for the following:
+1.	To print version of installed Hadoop.
+hadoop version
+2.	To copy file1.txt from folder InputDir to OutputDir as file2.txt.
+hdfs dfs -cp InputDir/file1.txt OutputDir/file2.txt
+3.	To delete an empty directory named XYZ.
+hdfs dfs -rmdir XYZ
+4.	To list the contents of folder named SampleDir.
+hdfs dfs -ls SampleDir
+5.	To fetch the usage instructions/details of mkdir command.
+hdfs dfs -help mkdir
+________________________________________
+Q2(b). Write a Spark program pseudo-code to load a text file named text.txt into a Spark RDD and compute its word counts.
+You can write it like this (Scala-style pseudo-code):
+// Load the text file into an RDD
+val textRDD = sc.textFile("text.txt")
+
+// Split each line into words
+val wordsRDD = textRDD.flatMap(line => line.split(" "))
+
+// Map each word to (word, 1)
+val pairRDD = wordsRDD.map(word => (word, 1))
+
+// Reduce by key to get word counts
+val wordCounts = pairRDD.reduceByKey((a, b) => a + b)
+
+// Optionally print or save the results
+wordCounts.collect().foreach(println)
+// or
+// wordCounts.saveAsTextFile("output_path")
+________________________________________
+Q2(c). Two Hive tables are shown below.
+Write a Hive query to perform an INNER JOIN on the Table1 and Table2 on ‘Id’ column.
+Also write the expected output.
+Table1
+Name	Id
+Joe	2
+Hank	4
+Ali	0
+Table2
+Id	Name
+2	Tie
+4	Coat
+3	Hat
+1	Scarf
+Hive join query (example):
+SELECT t1.Name    AS name1,
+       t1.Id      AS id,
+       t2.Name    AS name2
+FROM   Table1 t1
+JOIN   Table2 t2
+ON     (t1.Id = t2.Id);
+Expected output of INNER JOIN:
+name1	id	name2
+Joe	2	Tie
+Hank	4	Coat
+(Only Id = 2 and 4 match in both tables.)
+________________________________________
+Q2(d). Write commands/query in MongoDB to:
+(i) Create a collection named orders.
+db.createCollection("orders")
+(ii) Insert the record into orders:
+{
+  "order_id": 1,
+  "order_date": "2013-07-25 00:00:00.0",
+  "order_customer_id": 11599,
+  "order_status": "CLOSED"
+}
+Mongo insert:
+db.orders.insertOne({
+  order_id: 1,
+  order_date: "2013-07-25 00:00:00.0",
+  order_customer_id: 11599,
+  order_status: "CLOSED"
+})
+(iii) Fetch orders with order_status as COMPLETE.
+db.orders.find({ order_status: "COMPLETE" })
+(iv) Compute count of orders with status COMPLETE and CLOSED.
+Option 1 – two separate counts:
+db.orders.countDocuments({ order_status: "COMPLETE" })
+db.orders.countDocuments({ order_status: "CLOSED" })
+Option 2 – group and count in one aggregation:
+db.orders.aggregate([
+  { $match: { order_status: { $in: ["COMPLETE", "CLOSED"] } } },
+  { $group: { _id: "$order_status", count: { $sum: 1 } } }
+])
+
