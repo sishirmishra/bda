@@ -67,3 +67,72 @@ Task No.	Description	Hive Command	Example / Notes
 19	Top 3 highest-paid per department	select emp_name, department, salary from (select emp_name, department, salary, dense_rank() over (partition by department order by salary desc) as rnk from employee_details) t where rnk <= 3;	Window function
 20	Most experienced employee per city (custom question)	select emp_name, city, experience from (select emp_name, city, experience, row_number() over (partition by city order by experience desc) as rn from employee_details) x where rn=1;	Advanced analytics
 
+
+
+
+
+
+📘 MongoDB Commands – Table Format (With Purpose + Example)
+1. Database Commands
+Command	Purpose	Example
+show dbs	List all databases	show dbs
+use <dbname>	Switch/Create database	use school
+db	Show current DB	db
+db.dropDatabase()	Delete current DB	db.dropDatabase()
+2. Collection Commands
+Command	Purpose	Example
+show collections	List collections	show collections
+db.createCollection(name)	Create collection	db.createCollection("students")
+db.<col>.drop()	Drop collection	db.students.drop()
+3. Insert Commands
+Command	Purpose	Example
+insertOne()	Insert one document	db.students.insertOne({name:"Amit",age:10})
+insertMany()	Insert multiple documents	db.students.insertMany([{name:"A"}, {name:"B"}])
+4. Read / Query Commands
+Command	Purpose	Example
+find()	Fetch all documents	db.students.find()
+find(query)	Conditional fetch	db.students.find({age:10})
+findOne()	Fetch one document	db.students.findOne({name:"Amit"})
+$gt, $lt, $gte, $ne	Comparison operators	db.students.find({age:{$gt:8}})
+$in, $nin	IN / NOT IN	db.students.find({age:{$in:[8,9]}})
+$or	OR condition	db.students.find({$or:[{age:10},{class:"5th"}]})
+regex	Pattern search	db.students.find({name:/a/i})
+sort()	Sort results	db.students.find().sort({age:-1})
+limit()	Limit records	db.students.find().limit(5)
+skip()	Skip records	db.students.find().skip(10)
+5. Update Commands
+Command	Purpose	Example
+updateOne()	Update one	db.students.updateOne({name:"Amit"},{$set:{age:11}})
+updateMany()	Update multiple	db.students.updateMany({class:"5th"},{$set:{section:"A"}})
+$inc	Increment a value	db.students.updateOne({name:"Amit"},{$inc:{age:1}})
+$rename	Rename a field	db.students.updateMany({},{$rename:{"class":"grade"}})
+6. Delete Commands
+Command	Purpose	Example
+deleteOne()	Delete one	db.students.deleteOne({name:"Amit"})
+deleteMany()	Delete multiple	db.students.deleteMany({grade:"5th"})
+7. Aggregation Commands
+Command	Purpose	Example
+countDocuments()	Count records	db.students.countDocuments()
+$group	Group by field	db.students.aggregate([{ $group:{_id:"$class", total:{ $sum:1 }}}])
+$match	Filter inside pipeline	db.students.aggregate([{ $match:{age:{$gt:8}}}])
+pipeline	Full AGG example	db.students.aggregate([{ $match:{age:{$gt:8}}},{ $group:{_id:"$class",avgAge:{$avg:"$age"}}}])
+8. Index Commands
+Command	Purpose	Example
+createIndex()	Create index	db.students.createIndex({age:1})
+Compound index	Multi-field index	db.students.createIndex({class:1, age:-1})
+dropIndex()	Remove index	db.students.dropIndex("age_1")
+getIndexes()	List indexes	db.students.getIndexes()
+9. Backup & Restore
+Command	Purpose	Example
+mongodump	Backup DB	mongodump --db school --out backup/
+mongorestore	Restore DB	mongorestore --db school backup/school
+10. User / Admin Commands
+Command	Purpose	Example
+createUser()	Add DB user	db.createUser({user:"admin",pwd:"123",roles:["readWrite"]})
+show users	List all users	show users
+serverStatus()	Server info	db.serverStatus()
+11. System Utility Commands
+Command	Purpose	Example
+db.stats()	Database stats	db.stats()
+db.currentOp()	Show current ops	db.currentOp()
+db.killOp(id)	Kill running op	db.killOp(opid)
