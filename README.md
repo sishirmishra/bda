@@ -1,1 +1,33 @@
-# bda
+📌 HDFS dfs Command Table (Most Important for Exams)
+Command	Purpose	Example
+-ls	List files/directories	hdfs dfs -ls /user/hduser
+-ls -R	Recursive listing	hdfs dfs -ls -R /data
+-mkdir	Create directory	hdfs dfs -mkdir /data/input
+-mkdir -p	Create parent dirs if needed	hdfs dfs -mkdir -p /data/2025/jan
+-rmdir	Remove empty directory	hdfs dfs -rmdir /data/tmp
+-rm	Remove file	hdfs dfs -rm /data/file.txt
+-rm -r	Remove directory recursively	hdfs dfs -rm -r /data/old
+-rm -skipTrash	Delete permanently	hdfs dfs -rm -skipTrash /data/file.txt
+-mv	Move/Rename within HDFS	hdfs dfs -mv /data/a.txt /archive/a.txt
+-cp	Copy inside HDFS	hdfs dfs -cp /data/a.txt /backup/
+-put	Copy from local → HDFS	hdfs dfs -put local.txt /data/
+-copyFromLocal	Same as put	hdfs dfs -copyFromLocal test.csv /data/
+-get	Copy from HDFS → local	hdfs dfs -get /data/out.txt /home/user/
+-copyToLocal	Same as get	hdfs dfs -copyToLocal /data/log /home/
+-getmerge	Merge HDFS files to one local file	hdfs dfs -getmerge /data/out/ result.txt
+-appendToFile	Append local file to HDFS file	hdfs dfs -appendToFile a.txt b.txt /data/big.txt
+-cat	Display file contents	hdfs dfs -cat /data/file.txt
+-tail	Show last 1 KB of file	hdfs dfs -tail /logs/app.log
+-text	Convert to text (SequenceFile, etc.)	hdfs dfs -text /data/seqfile
+-du	Show space usage	hdfs dfs -du /data
+-du -h	Human readable	hdfs dfs -du -h /data
+-dus	Disk usage summary	hdfs dfs -dus /data/input
+-count	Count dirs, files, bytes	hdfs dfs -count /data
+-stat	File metadata (size, mod time)	hdfs dfs -stat %n %b %y /data/file.txt
+-chmod	Change permissions	hdfs dfs -chmod 755 /data/file.txt
+-chown	Change owner	hdfs dfs -chown hduser /data/file.txt
+-chgrp	Change group	hdfs dfs -chgrp hadoop /data/
+-setrep	Change replication factor	hdfs dfs -setrep 3 /data/file.txt
+-checksum	Show file checksum	hdfs dfs -checksum /data/file.txt
+-test	Test for existence/files/dir	hdfs dfs -test -e /data/file.txt
+-help	Show help	hdfs dfs -help
